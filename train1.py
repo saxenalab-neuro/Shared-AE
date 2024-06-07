@@ -54,8 +54,8 @@ if param[jobid][2]==1:
 else:
     torch.manual_seed(2)
 
-# path='/blue/npadillacoreano/yidaiyao/calms21/'
-modelpath='/gpfs/radev/project/saxena/dy274/headfixed/'
+
+modelpath='headfixed/'
 W=9
 # hdf5_file ='zs_td_resize_seq_mouse_30_window_9_516session.hdf5'#'seq_mouse_30_window_9.hdf5'
 # hdf5_file=modelpath+'mnist25more.hdf5'
@@ -86,16 +86,7 @@ batch_size=param[jobid][1]
 temperature=param[jobid][3]#0.07
 flag='models/new_all_noweight_temperature_'+str(temperature)+'randomseed_'+str(param[jobid][2])+'weight_'+str(weight)+'dim_'+str(dims)+'_KS_'+str(dims)
 if_label=False
-######setup label####
-# GN=47
-# label=np.zeros((95))
-# v=95//GN
 
-# for j in range (GN):
-#     label[v*j:v*(j+1)]=np.ones((len(label[v*j:v*(j+1)])))*j
-    
-# label[-1]=47
-####################
 
 dataset=pose_neural_Dataset(alllabels,data1,data2,TwoDropTransform_twomodal(W,newW))
 
@@ -191,10 +182,6 @@ def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimiz
 
     for batch_idx, (data) in enumerate(loader):###same image with different argumentation 
         
-        # adjust_learning_rate(learning_rate,cosine, optimizer_image, epoch,epochs,lr_decay_rate)
-        # adjust_learning_rate(learning_rate,cosine, optimizer_neural, epoch,epochs,lr_decay_rate)
-        
-
         optimizer.zero_grad()
         optimizer_image.zero_grad()
         optimizer_neural.zero_grad()
@@ -215,11 +202,9 @@ def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimiz
         
         bs=images.shape[0]
 
-        # features1 = torch.cat([features_image.unsqueeze(1), features_neural.unsqueeze(1)], dim=1)
-        # features2 = torch.cat([features_neural.unsqueeze(1), features_image.unsqueeze(1)], dim=1)
+
         loss1=mse_criterion(image_pred,images)
-        # print(neural.shape,neural_pred.shape)
-        # loss2=mse_criterion(neural_pred[:,-6:],neural[:,-6:])
+
         loss2=mse_criterion(neural_pred[:,:],neural[:,:])
         
         loss3=cs_criterion(image_feature,neural_feature)
@@ -300,7 +285,6 @@ def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimiz
     return losses.avg
 
 for epoch in range(1, epochs + 1):
-    # adjust_learning_rate(opt, optimizer, epoch) ###later
 
     # train for one epoch
     time1 = time.time()
