@@ -299,20 +299,6 @@ def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimiz
 
     return losses.avg
 
-checkpoint1 = torch.load(modelpath+'cl/models/'+'pose_less_'+str(batch_size)+'_seed'+str(param[jobid][2])+'_model/'+'ckpt_epoch_10.pth')##30,10
-checkpoint2 = torch.load(modelpath+'cl/models/neural_'+str(batch_size)+'_seed'+str(param[jobid][2])+'/'+'ckpt_epoch_10.pth')
-
-
-model_image.load_state_dict(checkpoint1['model'], strict=False)
-model_neural.load_state_dict(checkpoint2['model'], strict=False)
-optimizer_image.load_state_dict(checkpoint1['optimizer'])
-optimizer_neural.load_state_dict(checkpoint2['optimizer'])
-
-for param in model_image.parameters():
-    param.requires_grad = True
-for param in model_neural.parameters():
-    param.requires_grad = True
-
 for epoch in range(1, epochs + 1):
     # adjust_learning_rate(opt, optimizer, epoch) ###later
 
