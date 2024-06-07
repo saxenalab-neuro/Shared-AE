@@ -308,7 +308,7 @@ for epoch in range(1, epochs + 1):
 # save the last model
 save_file1 = os.path.join(save_folder1, 'last.pth')
 save_file2 = os.path.join(save_folder2, 'last.pth')
-save_file3 = os.path.join(save_folder3, 'last.pth')
+save_file3 = os.path.join(save_folderdecoder, 'last.pth')
 
 
 save_model(model_image, optimizer_image, epochs, save_file1)
