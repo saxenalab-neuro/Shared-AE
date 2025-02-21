@@ -1,5 +1,5 @@
 # Shared-VAE
-Official implementation for Shared-VAE (three modal); 
+Official implementation for Shared-VAE (three modals); 
 
 # Usage
 Run 
