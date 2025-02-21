@@ -1,5 +1,5 @@
 # Shared-VAE
-Official implementation for Shared-VAE (Jupyter notebook in progress); 
+Official implementation for Shared-VAE (two modal); 
 
 # Usage
 Run 
