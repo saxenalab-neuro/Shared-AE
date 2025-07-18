@@ -38,6 +38,9 @@ def train_model(param):
     KS=param[3]
     W=param[8]
     drop=param[9]
+    print_freq=param[13]
+    epochs=param[14]
+    save_freq=param[15]
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     if param[1]==1:
@@ -55,16 +58,9 @@ def train_model(param):
 
     # data.keys()
     arg=1
-    alllabels=deque()
-    # alllabels=list(data1['pose'].keys())
-    NN=388
-    # trainidx=np.load('trainidx.npy')
-    for tt in range(100):
-        for ww in range (189-W):
-            alllabels.append(str(tt)+'_'+str(ww))
-    for tt in range(516-288,516):
-        for ww in range (189-W):
-            alllabels.append(str(tt)+'_'+str(ww))
+    alllabels=list(data1['pose'].keys())
+
+
     alllabels=alllabels*arg
     newW=W-drop
     batch_size=param[0]
@@ -103,7 +99,7 @@ def train_model(param):
 
     embedding_dim, channels,bottleneck_dim,image_latent_dim,neural_latent_dim=512,newW,dims+image_private_dim,dims,dims
     neural_dim=np.array(data2['neural'][alllabels[0]]).shape[-1]
-    pose_dim=7
+    pose_dim=np.array(data1['pose'][alllabels[0]]).shape[-1]
 
 
     model_image=ResNet1d(in_channel=newW,name1='resnet18', name2='neural_resnet18',flag='pose')
@@ -130,8 +126,6 @@ def train_model(param):
     cs_criterion=csLoss(KS)
     cs_criterion = cs_criterion.to(device)
 
-    epochs=500
-    save_freq=50
     save_folder1=flag+'/pose_enocder_'+str(batch_size)+'_'+str(param[2])+'_'+'_model/'
     os.makedirs(save_folder1, exist_ok=True)
     save_folder2=flag+'/neural_encoder_'+str(batch_size)+'_'+str(param[2])+'_'+'_model/'
@@ -142,7 +136,7 @@ def train_model(param):
     fff=True
     ccc=True
 
-    def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimizer,epoch,optimizer_image,optimizer_neural,print_freq=50):
+    def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimizer,epoch,optimizer_image,optimizer_neural,print_freq):
 
 
         model_decoder.train()
@@ -278,7 +272,7 @@ def train_model(param):
 
         # train for one epoch
         time1 = time.time()
-        loss = train(loader, model_image,model_neural, model_decoder,mse_criterion, optimizer,epoch,optimizer_image,optimizer_neural)
+        loss = train(loader, model_image,model_neural, model_decoder,mse_criterion, optimizer,epoch,optimizer_image,optimizer_neural,print_freq)
         time2 = time.time()
         print('epoch {}, total time {:.2f}'.format(epoch, time2 - time1))
 

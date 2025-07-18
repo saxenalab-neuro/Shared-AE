@@ -49,7 +49,7 @@ class pose_neural_Dataset(torch.utils.data.Dataset):
         ID = self.allindex[index]
 
         # Load data and get label
-        image = np.array(self.data1['pose'][ID])[:,[0,1,2,3,5,7,8]]
+        image = np.array(self.data1['pose'][ID])#[:,[0,1,2,3,5,7,8]]
 
         neural = np.array(self.data2['neural'][ID])
         
