@@ -18,7 +18,7 @@ warnings.filterwarnings("ignore")
 import h5py
 import random
 from n_modals.data import image_neural_Dataset
-from n_modals.multi_loss import SupConLoss,csLoss,multicsLoss
+from n_modals.multi_loss import csLoss,GeneralizedMultiCSLoss
 from n_modals.model import SupConClipResNet
 
 from n_modals.model_1d import SupConClipResNet1d
@@ -127,17 +127,17 @@ def train_model(param):
     model_neural=set_model(model_neural,'neural')
     model_pose=set_model(model_pose,'pose')
 
-    model_decoder, _=set_model(model_decoder,'decoder')
+    model_decoder=set_model(model_decoder,'decoder')
 
 
     mse_criterion=nn.MSELoss()
     mse_criterion = mse_criterion.to(device)
 
 
-    cs_criterion=csLoss(15)
+    cs_criterion=csLoss(KS)
     cs_criterion = cs_criterion.to(device)
 
-    multics_criterion=multicsLoss(15)
+    multics_criterion=GeneralizedMultiCSLoss(KS)
     multics_criterion = multics_criterion.to(device)
 
     epochs=500
