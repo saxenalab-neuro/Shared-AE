@@ -50,10 +50,7 @@ else:
 # path='/blue/npadillacoreano/yidaiyao/calms21/'
 modelpath='path/to/data/'#'/gpfs/radev/project/saxena/dy274/headfixed/'
 W=9
-# hdf5_file ='zs_td_resize_seq_mouse_30_window_9_516session.hdf5'#'seq_mouse_30_window_9.hdf5'
-# hdf5_file=modelpath+'mnist25more.hdf5'
-# hdf5_file=modelpath+'mnist25more_resize_sine.hdf5'
-# hdf5_file=modelpath+'mnist_all_more_resize_sine.hdf5'
+
 hdf5_file='path/to/pose.hdf5'#modelpath+'posedata1d.hdf5'
 data1 = h5py.File(hdf5_file, 'r')
 hdf5_file='path/to/neural.hdf5'
@@ -295,14 +292,7 @@ def train(loader, model_image,model_neural, model_decoder,mse_criterion, optimiz
 
     return losses.avg
 
-# checkpoint1 = torch.load(modelpath+'cl/models/'+'pose_less_'+str(batch_size)+'_seed'+str(param[jobid][2])+'_model/'+'ckpt_epoch_10.pth')##30,10
-# checkpoint2 = torch.load(modelpath+'cl/models/neural_'+str(batch_size)+'_seed'+str(param[jobid][2])+'/'+'ckpt_epoch_10.pth')
 
-
-# model_image.load_state_dict(checkpoint1['model'], strict=False)
-# model_neural.load_state_dict(checkpoint2['model'], strict=False)
-# optimizer_image.load_state_dict(checkpoint1['optimizer'])
-# optimizer_neural.load_state_dict(checkpoint2['optimizer'])
 
 for param in model_image.parameters():
     param.requires_grad = True
