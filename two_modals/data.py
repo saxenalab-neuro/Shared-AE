@@ -5,7 +5,7 @@ from collections import deque
 from scipy import stats
 from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import MinMaxScaler
-from util import TwoCropTransform
+from two_modals.util import TwoCropTransform
 class oldpose_neural_Dataset(torch.utils.data.Dataset):
     def __init__(self, allindex,data1,data2,transform):
         'Initialization'

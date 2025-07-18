@@ -182,10 +182,10 @@ class LinearBatchNorm(nn.Module):
         return x
 
 #we need to initialize cross_domain model
-class SupConClipResNet1d(nn.Module):
+class ResNet1d(nn.Module):
     """backbone + projection head"""
     def __init__(self, in_channel=3, name1='resnet50', name2='neural_resnet18',head='mlp', feat_dim=512,flag='image'):
-        super(SupConClipResNet1d, self).__init__()
+        super(ResNet1d, self).__init__()
 
         
         model_fun1, dim_in1 = model_dict[name1]
