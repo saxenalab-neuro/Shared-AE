@@ -108,7 +108,7 @@ def train_model(param):
     model_image=ResNet1d(in_channel=newW,name1='resnet18', name2='neural_resnet18',flag='pose')
     model_neural=ResNet1d(in_channel=newW,name1='resnet18', name2='neural_resnet18',flag='neural')
 
-    model_decoder=Decoder(embedding_dim, channels,bottleneck_dim,image_latent_dim,neural_latent_dim,neural_dim,image_private_dim,neural_private_dim,pose_dim)
+    model_decoder=Decoder(embedding_dim, channels,bottleneck_dim,image_latent_dim,neural_latent_dim,neural_dim,image_private_dim,neural_private_dim)
 
 
 
