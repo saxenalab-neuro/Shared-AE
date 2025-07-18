@@ -5,7 +5,7 @@ from collections import deque
 from scipy import stats
 from torch.utils.data import Dataset, DataLoader
 from sklearn.preprocessing import MinMaxScaler
-from n_modals.util import TwoCropTransform
+from n_modalities.util import TwoCropTransform
 
 class image_neural_Dataset(torch.utils.data.Dataset):
     def __init__(self, allindex,data1,data2,data3,transform):
