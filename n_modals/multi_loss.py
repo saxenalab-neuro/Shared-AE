@@ -55,6 +55,41 @@ class multicsLoss(nn.Module):
         r=r1*10+r2+r3*10
         return r
         
+import itertools
+
+class GeneralizedMultiCSLoss(nn.Module):
+    def __init__(self, ksize, sigma=3.0, pair_weights=None):
+        super(GeneralizedMultiCSLoss, self).__init__()
+        self.ksize = ksize
+        self.sigma = sigma
+        self.pair_weights = pair_weights  # Optional dict of {(i,j): weight}
+
+    def forward(self, *modalities):
+        """
+        Accepts a variable number of modality tensors.
+        Each modality should be a tensor of shape [batch_size, feature_dim]
+        """
+        n = len(modalities)
+        loss = 0.0
+        eps = 1e-5
+        
+        for i, j in itertools.combinations(range(n), 2):
+            A, B = modalities[i], modalities[j]
+            G_aa = get_kernel(A, A, self.ksize)
+            G_bb = get_kernel(B, B, self.ksize)
+            G_ab = get_kernel(A, B, self.ksize)
+
+            term = torch.log(
+                self.sigma * torch.sqrt(torch.mean(G_aa) * torch.mean(G_bb) + eps) / 
+                (torch.mean(G_ab) + eps)
+            )
+            weight = 1.0
+            if self.pair_weights and (i, j) in self.pair_weights:
+                weight = self.pair_weights[(i, j)]
+            loss += weight * term
+
+        return loss
+    
 class klLoss(nn.Module):
     def __init__(self,model_precision=10,z_dim=12):
         super(klLoss, self).__init__()
