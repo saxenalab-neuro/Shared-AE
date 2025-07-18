@@ -29,46 +29,47 @@ from sklearn.utils import shuffle
 
 def train_model(param):
 
-    weight1=param[7]
-    weight2=param[8]
-    weight3=param[9]
-    weight4=param[10]
+    weight1=param[4]
+    weight2=param[5]
+    weight3=param[6]
+    weight4=param[7]
 
-    dims=param[5]
-    KS=param[6]
-    W=param[11]
-    drop=param[12]
+    dims=param[2]
+    KS=param[3]
+    W=param[8]
+    drop=param[9]
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    if param[2]==1:
+    if param[1]==1:
         torch.manual_seed(1)
     else:
         torch.manual_seed(2)
 
     # path='/blue/npadillacoreano/yidaiyao/calms21/'
-    modelpath='/gpfs/radev/project/saxena/dy274/sharedae/headfixed/'
+    modelpath=param[10]#'/gpfs/radev/project/saxena/dy274/sharedae/headfixed/'
 
-    hdf5_file=modelpath+'posedata1d.hdf5'
+    hdf5_file=modelpath+param[11]#'posedata1d.hdf5'
     data1 = h5py.File(hdf5_file, 'r')
-    hdf5_file=modelpath+'neu_9_less.hdf5'
+    hdf5_file=modelpath+param[12]#'neu_9_all.hdf5'
     data2 = h5py.File(hdf5_file, 'r')
 
-
+    # data.keys()
     arg=1
     alllabels=deque()
-
+    # alllabels=list(data1['pose'].keys())
+    NN=388
+    # trainidx=np.load('trainidx.npy')
     for tt in range(100):
         for ww in range (189-W):
             alllabels.append(str(tt)+'_'+str(ww))
     for tt in range(516-288,516):
         for ww in range (189-W):
             alllabels.append(str(tt)+'_'+str(ww))
-            
     alllabels=alllabels*arg
     newW=W-drop
-    batch_size=param[1]
+    batch_size=param[0]
 
-    flag='models/randomseed_'+str(param[2])+'dim_'+str(dims)+'_KS_'+str(dims)+'weight1_'+str(weight1)+'weight2_'+str(weight2)+'weight3_'+str(weight3)+'weight4_'+str(weight4)
+    flag='models/randomseed_'+str(param[0])+'dim_'+str(dims)+'_KS_'+str(dims)+'weight1_'+str(weight1)+'weight2_'+str(weight2)+'weight3_'+str(weight3)+'weight4_'+str(weight4)
 
 
 
@@ -108,7 +109,7 @@ def train_model(param):
     model_image=ResNet1d(in_channel=newW,name1='resnet18', name2='neural_resnet18',flag='pose')
     model_neural=ResNet1d(in_channel=newW,name1='resnet18', name2='neural_resnet18',flag='neural')
 
-    model_decoder=Decoder(embedding_dim, channels,bottleneck_dim,image_latent_dim,neural_latent_dim,neural_dim,image_private_dim,neural_private_dim)
+    model_decoder=Decoder(embedding_dim, channels,bottleneck_dim,image_latent_dim,neural_latent_dim,neural_dim,image_private_dim,neural_private_dim,pose_dim)
 
 
 
@@ -184,7 +185,7 @@ def train_model(param):
             
             bs=images.shape[0]
 
-
+            # print(image_pred.shape,images.shape)
             loss1=mse_criterion(image_pred,images)
             loss2=mse_criterion(neural_pred[:,:],neural[:,:])
             
