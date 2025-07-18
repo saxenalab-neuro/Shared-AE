@@ -10,8 +10,12 @@ conda activate sharedae
 pip install -r requirements.txt
 ```
 # Usage
-Run 
+Step 1 
 ```
-python train1.py
+dataset_generator.ipynb
+```
+Step 2 
+```
+two_modalities_usage.ipynb for 2 modalities or n_modalities_usage.ipynb for more than 2 modalities
 ```
 
