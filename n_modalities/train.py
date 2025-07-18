@@ -17,13 +17,13 @@ import warnings
 warnings.filterwarnings("ignore")
 import h5py
 import random
-from n_modals.data import image_neural_Dataset
-from n_modals.multi_loss import csLoss,GeneralizedMultiCSLoss
-from n_modals.model import SupConClipResNet
+from n_modalities.data import image_neural_Dataset
+from n_modalities.multi_loss import csLoss,GeneralizedMultiCSLoss
+from n_modalities.model import SupConClipResNet
 
-from n_modals.model_1d import SupConClipResNet1d
-from n_modals.modeldecodeorth2 import Decoder
-from n_modals.util import  AverageMeter,save_model,warmup_learning_rate,adjust_learning_rate,DropTransform_threemodal
+from n_modalities.model_1d import SupConClipResNet1d
+from n_modalities.modeldecodeorth2 import Decoder
+from n_modalities.util import  AverageMeter,save_model,warmup_learning_rate,adjust_learning_rate,DropTransform_threemodal
 import time 
 from sklearn.utils import shuffle
 

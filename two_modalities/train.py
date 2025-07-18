@@ -17,11 +17,11 @@ import warnings
 warnings.filterwarnings("ignore")
 import h5py
 import random
-from two_modals.data import pose_neural_Dataset
-from two_modals.multi_loss import csLoss
-from two_modals.model_1d import ResNet1d
-from two_modals.modeldecodeorth1 import Decoder
-from two_modals.util import  AverageMeter,save_model,warmup_learning_rate,adjust_learning_rate,TwoDropTransform_twomodal
+from two_modalities.data import pose_neural_Dataset
+from two_modalities.multi_loss import csLoss
+from two_modalities.model_1d import ResNet1d
+from two_modalities.modeldecodeorth1 import Decoder
+from two_modalities.util import  AverageMeter,save_model,warmup_learning_rate,adjust_learning_rate,TwoDropTransform_twomodal
 import time 
 from sklearn.utils import shuffle
 
